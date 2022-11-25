@@ -30,13 +30,16 @@ class HomeController extends Controller
             ->title(admin_trans_label('title'))
             ->description(admin_trans_label('description'))
             ->body(function (Row $row) {
+               //更改了首页卡片显示顺序
+                $row->column(3, new BannerMyTodoCounts());
+                $row->column(3, new BannerMaintenanceRecordCounts());
+                $row->column(3, new BannerServiceIssueCounts());
                 $row->column(3, new BannerMyAssetsWorth());
+                
+                //取消了首页卡片的权限判断。
                 // @permissions
-                if (Admin::user()->can('home.asset.admin')) {
-                    $row->column(3, new BannerMyTodoCounts());
-                    $row->column(3, new BannerMaintenanceRecordCounts());
-                    $row->column(3, new BannerServiceIssueCounts());
-                }
+                //   if (Admin::user()->can('home.asset.admin')) {
+                //}
                 // @permissions
                 if (Admin::user()->can('home.dashboard')) {
                     $row->column(12, '<hr>');
